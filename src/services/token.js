@@ -5,7 +5,7 @@ const setToken = newToken => {
     }
 }
 
-const config = ""
+let config = ""
 
 const exportedToken = { config, setToken }
 export default exportedToken

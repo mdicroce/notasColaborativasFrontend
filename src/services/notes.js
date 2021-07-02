@@ -2,6 +2,7 @@ import axios from 'axios'
 import exportedToken from './token'
 const baseUrl = 'http://localhost:3001/api/notes'
 
+
 let config = exportedToken.config
 
 const getAllFromUser = async(id) => {
