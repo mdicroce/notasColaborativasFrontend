@@ -1,42 +1,17 @@
 import React, { useState, useEffect } from 'react'
 import './App.css';
 import Notes from './components/noteView'
-
-
-const notasAuxiliares = 
-    {
-        "title" : "Revisar la vista de notas",
-        "content": "Las vistas de notas tienen que poder visualizarse de forma correcta",
-        "room" : {
-            owner: {
-
-            },
-            users:{
-
-            },
-            notes: {
-
-            }
-        },
-        "responsable" : {
-                "username" : "mbexel",
-                "mail" : "mtt1pt@gmail.com"
-        },
-        "owner" : {
-                "username" : "mbexel",
-                "mail" : "mtt1pt@gmail.com"
-        },
-        "complete" : false,
-        "date": new Date().toISOString(),
-        "moreNotes":[]
-    }
+import notasAuxiliares from './notasAuxiliares';
 
 function App() {
-  const {viewToShow, setViewToShow} = useState('frontPage')
-  console.log(notasAuxiliares.moreNotes.length)
+  const [viewToShow, setViewToShow] = useState(notasAuxiliares)
+  useEffect(() => {
+    console.log(viewToShow)
+  }, [viewToShow])
+  
   return (
     <div>
-      <Notes notes={notasAuxiliares}/>
+      <Notes fullNote = {viewToShow} setFullNote={setViewToShow}/>      
     </div>
     )
 }
