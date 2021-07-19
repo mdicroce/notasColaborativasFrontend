@@ -11,6 +11,7 @@ const Login = () => {
         .then(response => {
             token.setToken(response.token)
             window.localStorage.setItem('loggedUser', JSON.stringify(response))
+            
             console.log(response)
         })
         
