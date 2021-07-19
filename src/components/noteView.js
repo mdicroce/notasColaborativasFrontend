@@ -3,8 +3,9 @@ import React,  { useState } from 'react'
 
 
 const Notes = (props)  => {
-    const notas = <Note item = {props.fullNote} users = {props.fullNote.room.users} setNote={props.setFullNote}/>
-    const moreNotes = props.fullNote.moreNotes.map((actualNote) => <MoreNotes key={actualNote.title} users={props.fullNote.room.users} item = {actualNote} notes={props.fullNote} setNote = {props.setFullNote}/>)
+    const [loggedUser, setLoggedUser] = useState({...JSON.parse(window.localStorage.getItem('loggedUser'))})
+    const notas = <Note item = {props.fullNote} users = {props.fullNote.room.users} setNote={props.setFullNote} loggedUser={loggedUser}/>
+    const moreNotes = props.fullNote.moreNotes.map((actualNote) => <MoreNotes key={actualNote.title} users={props.fullNote.room.users} item = {actualNote} notes={props.fullNote} setNote = {props.setFullNote} loggedUser={loggedUser}/>)
     return (
         <div>
             {notas}
@@ -16,12 +17,18 @@ const Notes = (props)  => {
 
 const Note = (props) => {
     const [showcomment, setShowComment] = useState(false)
-    
+    const [edit, setEdit] = useState(false)
     const item = props.item;
+    const showButton = props.loggedUser.username === item.owner ? <button onClick={(e)=>{
+        e.preventDefault()
+        setEdit(!edit);
+    }}>EDIT</button> : ""
     
         return (
             <div style={{'margin':'10px'}}>
                 <div key={item.id}>
+                    {showButton}
+                    { edit &&  <EditNote key="props" users= {props.users} setNote={props.setNote} note={item} />}
                     <div><h2>Title: <span>{item.title}</span></h2>
                         <h3>Owner: <span>{item.owner.username}</span></h3>
                         <p>Responsable: <span>{item.owner.username}</span></p>
@@ -30,6 +37,7 @@ const Note = (props) => {
                     <textarea value={item.content}></textarea>
                     <button onClick={()=>setShowComment(true)}>add comment</button>
                     { showcomment && <Comment key="props" users= {props.users} setNote={props.setNote} note={item} />}
+                    
                 </div>
             </div>
         )
@@ -115,16 +123,16 @@ const EditNote = ({users, setNote, note, noteToEdit}) => {
         </div>
     )
 }
-const MoreNotes = ({users,item, notes, setNote}) =>{
+const MoreNotes = ({users,item, notes, setNote, loggedUser}) =>{
     const [edit, setEdit] = useState(false)
-    const showButton = JSON.parse(window.localStorage.getItem('loggedUser')).username === item.owner
+    const showButton = loggedUser.username === item.owner ? <button onClick={(e)=>{
+        e.preventDefault()
+        setEdit(!edit);
+    }}>EDIT</button> : ""
     return (
             <div style={{'margin':'10px'}}>
                 <div>
-                    { showButton ?  <button onClick={(e)=>{
-                        e.preventDefault()
-                        setEdit(!edit);
-                    }}>EDIT</button>: ""}
+                    { showButton }
                     {edit && <EditNote users={users} setNote={setNote} note={notes} noteToEdit={item}/>}
                     <div><h2>Title: <span>{item.title}</span></h2>
                         <h3>Owner: <span>{item.owner.username}</span></h3>
