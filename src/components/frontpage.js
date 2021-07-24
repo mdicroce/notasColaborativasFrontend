@@ -1,12 +1,64 @@
-import React from 'react'
+import React,  {useState} from 'react'
+import { makeStyles } from '@material-ui/core/styles';
+import { Container, AppBar, Typography, Toolbar, IconButton, Button,Menu, MenuList} from '@material-ui/core'
+import UnloggedFrontPage from '../views/frontPageLoggout';
 
-const frontPage = ({}) => {
-    return (
-        <div>
-            <label>Please Login</label>
-            <button>Login</button>
-            <label>First time? Please register your user</label>
-            <button>Sign In</button>
-        </div>
-    )
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    flexGrow: 1,
+    textShadow: '2px 2px 1px #444'
+  },
+  centerInfo: {
+      margin: '0 auto',
+      textAlign: 'center',
+      display : 'flex',
+      flexDirection: 'column',
+      justifyItems: 'center',
+      alignContent: 'center',
+      alignItems: 'center'
+      
+  },
+  loginButtons: {
+      width: '50%',
+      minWidth: '200px',
+      marginTop: '10px'
+  },
+  imgFrontPage:{
+    height: '60vh',
+    width: '70%'
+  },
+  pngLogo:{
+      width: '32px',
+      boxShadow: '2px 2px 3px #002884',
+      marginRight: theme.spacing(2),
+  },
+  buttonsSubtitle:{
+    fontSize: '14px',
+    margin:'5px'
+  }
+}));
+
+const FrontPage = (props) => {
+    if(props.loggedUser)
+    {
+        
+    }
+    else
+    {
+        return (
+            <UnloggedFrontPage useStyles={useStyles}/>
+        )
+    }
 }
+
+
+
+
+export default FrontPage
+
