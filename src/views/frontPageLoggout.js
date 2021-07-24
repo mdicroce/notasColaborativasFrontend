@@ -4,8 +4,8 @@ import { Container, AppBar, Typography, Toolbar, IconButton, Button,Menu, MenuLi
 import {Menu as MenuIcon} from '@material-ui/icons'
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
-import Login from ''
-import Register from '*.module.scss'
+import Login from './loginView'
+
 
 const UnloggedFrontPage = (props) => {
 
@@ -32,7 +32,7 @@ const UnloggedFrontPageMain = (props) => {
     const classes = props.classes
     const logIn = (e) => {
         e.preventDefault()
-        props.setViewToShow()
+        props.setViewToShow(<Login/>)
     }
     return(
         <div>
@@ -43,11 +43,11 @@ const UnloggedFrontPageMain = (props) => {
                       </Typography>
                       <img className={classes.imgFrontPage} src={loginSvg} alt=""/>
                       <Container className={classes.centerInfo}>
-                        <Button size='large' variant='contained' color='primary' className={classes.loginButtons} onClick={}>Please Login</Button>
+                        <Button size='large' variant='contained' color='primary' className={classes.loginButtons} onClick={logIn}>Please Login</Button>
                         <Typography className={classes.buttonsSubtitle} variant="caption" color='textSecondary'>If you already have an account</Typography>
                       </Container>
                       <Container className={classes.centerInfo}>
-                        <Button size='large' variant='contained' color='secondary' className={classes.loginButtons} onClick={}>Register</Button>
+                        <Button size='large' variant='contained' color='secondary' className={classes.loginButtons} onClick={()=>{}}>Register</Button>
                         <Typography className={classes.buttonsSubtitle} variant="caption" color='textSecondary'>If it's your first time</Typography>
                       </Container>
                 </Container>
