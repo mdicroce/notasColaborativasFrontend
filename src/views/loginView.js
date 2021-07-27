@@ -1,4 +1,6 @@
 import React,  {useState, useEffect} from 'react'
+import LoginService from '../services/login'
+import  Token  from '../services/token'
 import { makeStyles } from '@material-ui/core/styles';
 import { Button, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -25,7 +27,7 @@ const useStyles = makeStyles ((theme) => ({
   },
 }))
 
-const SignIn = () => {
+const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit}) => {
     const classes = useStyles()
     
     return (
@@ -37,7 +39,7 @@ const SignIn = () => {
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <form className={classes.form} noValidate>
+                <form className={classes.form} onSubmit={onSubmit} noValidate>
                     <TextField
                         variant='outlined'
                         margin='normal'
@@ -48,6 +50,7 @@ const SignIn = () => {
                         name='email'
                         autoComplete='email'
                         autoFocus
+                        onChange={onChangeEmail}
                     />
                     <TextField
                         variant='outlined'
@@ -59,10 +62,12 @@ const SignIn = () => {
                         type='password'
                         name='password'
                         autoComplete='current-password'
+                        onChange={onChangePass}
                     />
                     <FormControlLabel
                         control={<Checkbox value='remember' color='primary' />}
                         label='Remember me'
+                        onChange={onChangeRememberMe}
                     />
                     <Button
                         type='submit'
@@ -92,6 +97,28 @@ const SignIn = () => {
 }
 
 const Login = (props) => {
+    const onChangeEmail = (e) => {
+        setToSub({...toSub, 'email': e.target.value})
+    }
+    const onChangePass = (e) => {
+        setToSub({...toSub, 'pass': e.target.value})
+    }
+    const onChangeRememberMe=(e)=>{
+        setToSub({...toSub, 'rememberMe': e.target.value})
+    }
+    const onSubmit = (e) =>{
+        e.preventDefault()
+        LoginService.login({username: toSub.email, password: toSub.pass})
+        .then(response => {
+            Token.setToken(response.token)
+            props.setLoggedUser(response)
+            if(toSub.rememberMe)
+            {
+                window.localStorage.setItem('loggedUser', JSON.stringify(response))
+            }
+        })
+    }
+    const [toSub, setToSub] = useState({'email':'', 'pass': '', 'rememberMe' : false})
     /* const [onChangeLogin, setOnChangeLogin] = useState('')
     const [onChangePass, setOnChangePass] = useState('')
     const onClickHandler = (e) => {
@@ -107,7 +134,7 @@ const Login = (props) => {
     } */
     return(
         <div>
-            <SignIn/>
+            <SignIn onChangeEmail={onChangeEmail} onChangePass={onChangePass} onChangeRememberMe={onChangeRememberMe} onSubmit={onSubmit}/>
         </div>
     )
 }

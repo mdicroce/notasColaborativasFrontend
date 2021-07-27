@@ -10,7 +10,7 @@ import Login from './loginView'
 const UnloggedFrontPage = (props) => {
 
     const [viewToShow, setViewToShow] =useState()
-    useEffect(()=>{setViewToShow(<UnloggedFrontPageA useStyles={props.useStyles} setViewToShow={setViewToShow} />)},[])
+    useEffect(()=>{setViewToShow(<UnloggedFrontPageA useStyles={props.useStyles} setViewToShow={setViewToShow} setLoggedUser={props.setLoggedUser}/>)},[])
 
     return (
         <div>
@@ -24,7 +24,7 @@ const UnloggedFrontPageA = (props) => {
     return (
         <div>
             <UnloggedFrontPageHeader classes={props.useStyles()} setViewToShow={props.setViewToShow}/>
-            <UnloggedFrontPageMain classes={props.useStyles()} setViewToShow={props.setViewToShow}/>
+            <UnloggedFrontPageMain classes={props.useStyles()} setViewToShow={props.setViewToShow} setLoggedUser={props.setLoggedUser}/>
         </div>
     )
 }
@@ -32,7 +32,7 @@ const UnloggedFrontPageMain = (props) => {
     const classes = props.classes
     const logIn = (e) => {
         e.preventDefault()
-        props.setViewToShow(<Login/>)
+        props.setViewToShow(<Login setLoggedUser={props.setLoggedUser}/>)
     }
     return(
         <div>
