@@ -5,8 +5,8 @@ const baseUrl = 'http://localhost:3001/api/notes'
 
 let config = exportedToken.config
 
-const getAllFromUser = async(id) => {
-    const response = await axios.get(`${baseUrl}/user/${id}`,config)
+const getAllFromUser = async(username) => {
+    const response = await axios.get(`${baseUrl}/user/${username}`,config)
     return response.data
 }
 

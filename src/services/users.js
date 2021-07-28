@@ -13,8 +13,8 @@ const getNotesFromUser = async (newObject) => {
 }
 
 const postNewUser = async (newObject) => {
-    const response = await axios.post(`${baseUrl}`, newObject)
-    return response.data
+    await axios.post(baseUrl, newObject)
+    return "response.data"
 }
 
 

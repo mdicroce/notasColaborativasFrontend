@@ -27,7 +27,7 @@ const useStyles = makeStyles ((theme) => ({
   },
 }))
 
-const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit}) => {
+const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit, defaultUser}) => {
     const classes = useStyles()
     
     return (
@@ -50,6 +50,7 @@ const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit}) => 
                         name='email'
                         autoComplete='email'
                         autoFocus
+                        defaultValue={defaultUser.username}
                         onChange={onChangeEmail}
                     />
                     <TextField
@@ -110,6 +111,7 @@ const Login = (props) => {
         e.preventDefault()
         LoginService.login({username: toSub.email, password: toSub.pass})
         .then(response => {
+            
             Token.setToken(response.token)
             props.setLoggedUser(response)
             if(toSub.rememberMe)
@@ -134,7 +136,7 @@ const Login = (props) => {
     } */
     return(
         <div>
-            <SignIn onChangeEmail={onChangeEmail} onChangePass={onChangePass} onChangeRememberMe={onChangeRememberMe} onSubmit={onSubmit}/>
+            <SignIn onChangeEmail={onChangeEmail} onChangePass={onChangePass} onChangeRememberMe={onChangeRememberMe} onSubmit={onSubmit} defaultUser={props.userToLogin}/>
         </div>
     )
 }

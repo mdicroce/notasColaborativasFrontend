@@ -5,7 +5,9 @@ import FrontPage from './components/frontpage'
 
 function App() {
   const[loggedUser,setLoggedUser] = useState('')
-  
+  useEffect(()=>{
+    setLoggedUser(window.localStorage.getItem('loggedUser'))
+  }, [])
     return (
     <div>
       <FrontPage loggedUser={loggedUser} setLoggedUser={setLoggedUser}  />  
