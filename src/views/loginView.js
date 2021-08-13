@@ -1,9 +1,10 @@
 import React,  {useState, useEffect} from 'react'
 import LoginService from '../services/login'
-import  Token  from '../services/token'
+import  Token  from '../hooks/useToken'
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Box, Typography, Container } from '@material-ui/core'
+import { Button, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Typography, Container } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import { useLogin } from '../hooks/useLogin';
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
 
@@ -27,9 +28,10 @@ const useStyles = makeStyles ((theme) => ({
   },
 }))
 
-const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit, defaultUser}) => {
+export const SignIn = () => {
     const classes = useStyles()
-    
+    const { username, password, rememberMe, onSubmitLogin } = useLogin()
+
     return (
         <Container component='main' maxWidth='xs'>
             <div className={classes.paper}>
@@ -39,20 +41,20 @@ const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit, defa
                 <Typography component="h1" variant="h5">
                     Login
                 </Typography>
-                <form className={classes.form} onSubmit={onSubmit} noValidate>
+                <form className={classes.form} onSubmit={onSubmitLogin} noValidate>
                     <TextField
                         variant='outlined'
                         margin='normal'
+                        {...username}
                         required
                         fullWidth
-                        id='email'
-                        label='Email Adress'
-                        name='email'
-                        autoComplete='email'
+                        id='username'
+                        label='Username'
+                        name='username'
+                        autoComplete='username'
                         autoFocus
-                        defaultValue={defaultUser.username}
-                        onChange={onChangeEmail}
                     />
+                    
                     <TextField
                         variant='outlined'
                         margin='normal'
@@ -60,15 +62,13 @@ const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit, defa
                         fullWidth
                         id='pasword'
                         label='Password'
-                        type='password'
-                        name='password'
+                        {...password}
                         autoComplete='current-password'
-                        onChange={onChangePass}
                     />
                     <FormControlLabel
                         control={<Checkbox value='remember' color='primary' />}
                         label='Remember me'
-                        onChange={onChangeRememberMe}
+                        {...rememberMe}
                     />
                     <Button
                         type='submit'
@@ -97,48 +97,3 @@ const SignIn = ({onChangeEmail, onChangePass, onChangeRememberMe, onSubmit, defa
     )
 }
 
-const Login = (props) => {
-    const onChangeEmail = (e) => {
-        setToSub({...toSub, 'email': e.target.value})
-    }
-    const onChangePass = (e) => {
-        setToSub({...toSub, 'pass': e.target.value})
-    }
-    const onChangeRememberMe=(e)=>{
-        setToSub({...toSub, 'rememberMe': e.target.value})
-    }
-    const onSubmit = (e) =>{
-        e.preventDefault()
-        LoginService.login({username: toSub.email, password: toSub.pass})
-        .then(response => {
-            
-            Token.setToken(response.token)
-            props.setLoggedUser(response)
-            if(toSub.rememberMe)
-            {
-                window.localStorage.setItem('loggedUser', JSON.stringify(response))
-            }
-        })
-    }
-    const [toSub, setToSub] = useState({'email':'', 'pass': '', 'rememberMe' : false})
-    /* const [onChangeLogin, setOnChangeLogin] = useState('')
-    const [onChangePass, setOnChangePass] = useState('')
-    const onClickHandler = (e) => {
-        e.preventDefault()
-        LoginService.login({username: onChangeLogin, password: onChangePass})
-        .then(response => {
-            token.setToken(response.token)
-            window.localStorage.setItem('loggedUser', JSON.stringify(response))
-            
-            console.log(response)
-        })
-        
-    } */
-    return(
-        <div>
-            <SignIn onChangeEmail={onChangeEmail} onChangePass={onChangePass} onChangeRememberMe={onChangeRememberMe} onSubmit={onSubmit} defaultUser={props.userToLogin}/>
-        </div>
-    )
-}
-
-export default Login

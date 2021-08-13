@@ -8,6 +8,7 @@ function App() {
   useEffect(()=>{
     setLoggedUser(window.localStorage.getItem('loggedUser'))
   }, [])
+  
     return (
     <div>
       <FrontPage loggedUser={loggedUser} setLoggedUser={setLoggedUser}  />  
