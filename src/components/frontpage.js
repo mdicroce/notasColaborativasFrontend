@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Container, AppBar, Typography, Toolbar, IconButton, Button,Menu, MenuList} from '@material-ui/core'
 import UnloggedFrontPage from '../views/frontPageLoggout';
 import LoggedFrontPage from '../views/userView';
+import { DataContext } from '../context/contextProvider';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,13 +46,13 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const FrontPage = (props) => {
-    if(props.loggedUser)
+const FrontPage = () => {
+  const { user } = React.useContext(DataContext)
+    if(user)
     {
-      console.log(typeof props.loggedUser)
         return (
           <div>
-            <LoggedFrontPage loggedUser={props.loggedUser} useStyles={useStyles} setLoggedUser={props.loggedUser}/>
+            <LoggedFrontPage useStyles={useStyles} />
           </div>
         )
     }

@@ -5,17 +5,18 @@ import {Menu as MenuIcon} from '@material-ui/icons'
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
 import Login from './loginView'
-import Register from './registerView';
+import Register from './registerView'
+import { DataContext } from '../context/contextProvider';
 
 
 const UnloggedFrontPage = (props) => {
 
-    const [viewToShow, setViewToShow] =useState()
-    useEffect(()=>{setViewToShow(<UnloggedFrontPageA useStyles={props.useStyles} setViewToShow={setViewToShow} setLoggedUser={props.setLoggedUser}/>)},[])
+    const { view, setView } = React.useContext(DataContext)
+    useEffect(()=>{setView(<UnloggedFrontPageA useStyles={props.useStyles} setViewToShow={setViewToShow} setLoggedUser={props.setLoggedUser}/>)},[])
 
     return (
         <div>
-            {viewToShow}
+            {view}
         </div>
     )
 }
