@@ -115,7 +115,7 @@ const Register = (props) => {
     
     const alreadyHaveAnAccount = (e) => {
         e.preventDefault()
-        props.setViewToShow(<Login setLoggedUser={props.setLoggedUser} userToLogin={{}}/>)
+        props.setViewToShow(<SignIn />)
     }
     const onChangeUsername = (e)  => {
         setToSub({...toSub, username:e.target.value})
@@ -129,7 +129,7 @@ const Register = (props) => {
     const onSubmit = async (e) => {
         e.preventDefault()
         const respuesta =  RegisterService.postNewUser(toSub)
-        props.setViewToShow(<Login setLoggedUser={props.setLoggedUser} userToLogin={respuesta}/>)
+        props.setViewToShow(<SignIn />)
         
     }
     const [toSub, setToSub] = React.useState({'username':'','email':'', 'password': ''})

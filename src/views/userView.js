@@ -5,9 +5,10 @@ import {Menu as MenuIcon, Delete as DeleteIcon, Add as AddIcon} from '@material-
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
 import { SignIn } from './loginView'
-import Register from './registerView';
+import Register from './registerView'
 import { useNotes } from '../services/notes'
-import { DataContext } from '../context/contextProvider';
+import { DataContext } from '../context/contextProvider'
+import useNote from '../hooks/useNote'
 
 
 const LoggedFrontPage = (props) => {
@@ -34,15 +35,9 @@ const NotesPage = (props) => {
 
 const Notes = (props) => {
     
-    const [notes,setNotes]=useState([])
-    useEffect(()=>{
-        console.log(props.loggedUser)
-        setNotes(NoteService.getAllFromUser(props.loggedUser.username)
-        .then(response => response))
-    },[])
-    const noteToShow = notes.map((n)=>{
-
-    })
+    const {notes, getNotesFromUser} = useNote()
+    const { user } = React.useContext(DataContext)
+    getNotesFromUser(user.username)
     return(
         ShowNote
     )
@@ -70,37 +65,7 @@ const ShowNote = (props) => {
         </Container>
     )
 }
-const UnloggedFrontPageMain = (props) => {
-    const classes = props.classes
-    const logIn = (e) => {
-        e.preventDefault()
-        props.setViewToShow(<Login setLoggedUser={props.setLoggedUser} userToLogin={{}}/>)
-    }
-    const register = (e) => {
-        e.preventDefault()
-        props.setViewToShow(<Register setViewToShow={props.setViewToShow}/>)
-    }
-    return(
-        <div>
-            <Container className={classes.centerInfo} fixed>
-                <Container className={classes.centerInfo}>
-                      <Typography style={{marginTop: '30px', fontWeight: 'bold'}} color='textPrimary' variant='h3'>
-                          Login and Start Using Noted
-                      </Typography>
-                      <img className={classes.imgFrontPage} src={loginSvg} alt=""/>
-                      <Container className={classes.centerInfo}>
-                        <Button size='large' variant='contained' color='primary' className={classes.loginButtons} onClick={logIn}>Please Login</Button>
-                        <Typography className={classes.buttonsSubtitle} variant="caption" color='textSecondary'>If you already have an account</Typography>
-                      </Container>
-                      <Container className={classes.centerInfo}>
-                        <Button size='large' variant='contained' color='secondary' className={classes.loginButtons} onClick={register}>Register</Button>
-                        <Typography className={classes.buttonsSubtitle} variant="caption" color='textSecondary'>If it's your first time</Typography>
-                      </Container>
-                </Container>
-            </Container>
-        </div>
-    )
-}
+
 const LoggedHeader = (props) => {
     const loggout = (e) => {
         e.preventDefault()
