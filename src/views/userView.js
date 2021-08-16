@@ -4,15 +4,16 @@ import { Container, AppBar, Typography, Fab, Tooltip,Toolbar, IconButton, Paper,
 import {Menu as MenuIcon, Delete as DeleteIcon, Add as AddIcon} from '@material-ui/icons'
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
-import Login from './loginView'
+import { SignIn } from './loginView'
 import Register from './registerView';
-import NoteService from '../services/notes'
+import { useNotes } from '../services/notes'
+import { DataContext } from '../context/contextProvider';
 
 
 const LoggedFrontPage = (props) => {
 
-    const [viewToShow, setViewToShow] =useState()
-    useEffect(()=>{setViewToShow(<NotesPage loggedUser={props.loggedUser} useStyles={props.useStyles} setViewToShow={setViewToShow} setLoggedUser={props.setLoggedUser}/>)},[])
+    const { viewToShow, setView } = React.useContext(DataContext)
+    useEffect(()=>{setView(<NotesPage useStyles={props.useStyles}/>)},[])
 
     return (
         <div>
@@ -25,8 +26,8 @@ const NotesPage = (props) => {
     
     return (
         <div>
-            <LoggedHeader classes={props.useStyles()} setViewToShow={props.setViewToShow}/>
-            <Notes classes={props.useStyles()} loggedUser={props.loggedUser} setViewToShow={props.setViewToShow} setLoggedUser={props.setLoggedUser}/>
+            <LoggedHeader classes={props.useStyles()} />
+            <Notes classes={props.useStyles()} />
         </div>
     )
 }

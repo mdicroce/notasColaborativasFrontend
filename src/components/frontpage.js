@@ -59,7 +59,7 @@ const FrontPage = () => {
     else
     {
         return (
-            <UnloggedFrontPage useStyles={useStyles} setLoggedUser={props.setLoggedUser}/>
+            <UnloggedFrontPage useStyles={useStyles} />
         )
     }
 }

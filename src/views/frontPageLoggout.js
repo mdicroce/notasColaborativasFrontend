@@ -1,10 +1,8 @@
-import React,  {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Typography, Toolbar, IconButton, Button,Menu, MenuList} from '@material-ui/core'
-import {Menu as MenuIcon} from '@material-ui/icons'
+import React,  { useEffect} from 'react'
+import { Container, AppBar, Typography, Toolbar, Button} from '@material-ui/core'
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
-import Login from './loginView'
+import { SignIn } from './loginView'
 import Register from './registerView'
 import { DataContext } from '../context/contextProvider';
 
@@ -12,7 +10,7 @@ import { DataContext } from '../context/contextProvider';
 const UnloggedFrontPage = (props) => {
 
     const { view, setView } = React.useContext(DataContext)
-    useEffect(()=>{setView(<UnloggedFrontPageA useStyles={props.useStyles} setViewToShow={setViewToShow} setLoggedUser={props.setLoggedUser}/>)},[])
+    useEffect(()=>{setView(<UnloggedFrontPageA useStyles={props.useStyles} />)},[])
 
     return (
         <div>
@@ -25,20 +23,21 @@ const UnloggedFrontPageA = (props) => {
     
     return (
         <div>
-            <UnloggedFrontPageHeader classes={props.useStyles()} setViewToShow={props.setViewToShow} setLoggedUser={props.setLoggedUser}/>
-            <UnloggedFrontPageMain classes={props.useStyles()} setViewToShow={props.setViewToShow} setLoggedUser={props.setLoggedUser}/>
+            <UnloggedFrontPageHeader classes={props.useStyles()}/>
+            <UnloggedFrontPageMain classes={props.useStyles()}/>
         </div>
     )
 }
 const UnloggedFrontPageMain = (props) => {
     const classes = props.classes
+    const { setView } = React.useContext(DataContext)
     const logIn = (e) => {
         e.preventDefault()
-        props.setViewToShow(<Login setLoggedUser={props.setLoggedUser} userToLogin={{}}/>)
+        setView(<SignIn />)
     }
     const register = (e) => {
         e.preventDefault()
-        props.setViewToShow(<Register setViewToShow={props.setViewToShow}/>)
+        setView(<Register />)
     }
     return(
         <div>
@@ -63,6 +62,7 @@ const UnloggedFrontPageMain = (props) => {
 }
 
 const UnloggedFrontPageHeader = ({classes, setViewToShow, setLoggedUser}) => {
+    const {setView} = React.useContext(DataContext)
     return(
         <div className={classes.root}>
             <AppBar position="static">
@@ -74,7 +74,7 @@ const UnloggedFrontPageHeader = ({classes, setViewToShow, setLoggedUser}) => {
                     </Typography>
                     <Button color="inherit" onClick={(e)=>{
                         e.preventDefault()
-                        setViewToShow(<Login setLoggedUser={setLoggedUser} userToLogin={{}}/>)
+                        setView(<SignIn />)
                     }}>Login</Button>
                 </Toolbar>
             </AppBar>
