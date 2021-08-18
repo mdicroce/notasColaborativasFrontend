@@ -1,15 +1,15 @@
-import {useState, useEffect, useContext} from 'react'
+import {useState, useContext} from 'react'
 import { DataContext } from '../context/contextProvider'
 import { useNoteService } from '../services/notes'
+
 
 export default function useNote () {
     const {user} = useContext(DataContext)
     const noteService = useNoteService()
-    const [notes, setNotes] = useState()
-    const [newNote, setNewNote] = useState()
-    useEffect(()=> {
+    const [notes, setNotes] = useState([])
+    const postNewNote = (newNote) => {
         noteService.postNote(newNote)
-    },[newNote])
+    }
     const getNotesFromUser = async () => {
         const response = await noteService.getAllFromUser(user.username)
         setNotes(response)
@@ -45,5 +45,5 @@ export default function useNote () {
             }
         }))
     }
-    return { notes, setNewNote, getNotesFromUser, deleteNote, changeNote, commentNote}
+    return { notes, postNewNote, getNotesFromUser, deleteNote, changeNote, commentNote}
 }

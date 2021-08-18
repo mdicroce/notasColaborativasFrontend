@@ -5,7 +5,7 @@ import UnloggedFrontPage from '../views/frontPageLoggout';
 import LoggedFrontPage from '../views/userView';
 import { DataContext } from '../context/contextProvider';
 
-const useStyles = makeStyles((theme) => ({
+export const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
   },
@@ -43,7 +43,33 @@ const useStyles = makeStyles((theme) => ({
   buttonsSubtitle:{
     fontSize: '14px',
     margin:'5px'
+  },
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+    backgroundColor: 'whitesmoke'
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+  div100: {
+    width: '100%'
+  },
+  containerDiv : {
+    padding: '1rem',
+    backgroundColor: 'red'
   }
+  
 }));
 
 const FrontPage = () => {

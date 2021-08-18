@@ -1,24 +1,27 @@
 import React,  {useState, useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { Container, AppBar, Typography, Fab, Tooltip,Toolbar, IconButton, Paper, Button,Menu, MenuList} from '@material-ui/core'
-import {Menu as MenuIcon, Delete as DeleteIcon, Add as AddIcon} from '@material-ui/icons'
+import {Menu as MenuIcon, Delete as DeleteIcon, Add as AddIcon, AccountBalanceTwoTone} from '@material-ui/icons'
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
 import { SignIn } from './loginView'
 import Register from './registerView'
 import { useNotes } from '../services/notes'
 import { DataContext } from '../context/contextProvider'
-import useNote from '../hooks/useNote'
+import { useNote }  from '../hooks/useNote'
+import { NotesTable } from './showNotes'
+import { useStyles } from '../components/frontpage'
+import { NewNote } from '../components/newNote';
 
 
 const LoggedFrontPage = (props) => {
 
-    const { viewToShow, setView } = React.useContext(DataContext)
+    const { view, setView } = React.useContext(DataContext)
     useEffect(()=>{setView(<NotesPage useStyles={props.useStyles}/>)},[])
 
     return (
         <div>
-            {viewToShow}
+            {view}
         </div>
     )
 }
@@ -28,25 +31,49 @@ const NotesPage = (props) => {
     return (
         <div>
             <LoggedHeader classes={props.useStyles()} />
-            <Notes classes={props.useStyles()} />
+            <MainPage classes= {props.useStyles()}>
+                <NewNote/>
+                <NotesTable classes={props.useStyles()} />
+            </MainPage>
         </div>
     )
 }
 
-const Notes = (props) => {
+const MainPage = (props) => 
+{
+    const classes = useStyles()
+    return (
+        <Container className={classes.centerInfo}>
+            <Paper>
+                {props.children}
+            </Paper>
+        </Container>
+    )
+}
+
+
+/* const Notes = (props) => {
     
     const {notes, getNotesFromUser} = useNote()
     const { user } = React.useContext(DataContext)
-    getNotesFromUser(user.username)
+    const notesToShow = notes.map((actualNote) => {
+        return (<ShowNote key={actualNote.id} note={actualNote}/>)
+    })
+    useEffect(()=> {
+        getNotesFromUser(user.username)
+        
+    },[]) 
     return(
-        ShowNote
+        <div>
+            {notesToShow}
+        </div>
     )
-}
+} */
 const ShowNote = (props) => {
     return (
         <Container>
             <Paper>
-                <Tooltip title="Delete">
+                {/* <Tooltip title="Delete">
                     <IconButton aria-label="delete">
                         <DeleteIcon />
                     </IconButton>
@@ -60,7 +87,7 @@ const ShowNote = (props) => {
                     <Fab color="secondary" >
                         <AddIcon />
                     </Fab>
-                    </Tooltip>
+                    </Tooltip> */}
             </Paper>
         </Container>
     )
