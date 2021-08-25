@@ -5,50 +5,21 @@ import Grid from '@material-ui/core/Grid'
 import { Container, Typography } from '@material-ui/core'
 import { Paper } from '@material-ui/core'
 import { useStyles } from '../components/frontpage'
-
-const notesAux = [
-  {
-    title: "primera nota",
-    content: "Esta es una nota importante para hacer pruebas",
-    complete: false,
-    date: Date()
-  },
-  {
-    title: "segunda nota",
-    content: "Esta es una nota importante para hacer pruebas",
-    complete: false,
-    date: Date()
-  },
-  {
-    title: "tercera nota",
-    content: "Esta es una nota importante para hacer pruebas",
-    complete: false,
-    date: Date()
-  },
-  {
-    title: "cuarta nota",
-    content: "Esta es una nota importante para hacer pruebas",
-    complete: false,
-    date: Date()
-  }
-]
-
+import { NewNote } from '../components/newNote'
 
 export const NotesTable = (props) => {
     
-    /* const {notes, getNotesFromUser} = useNote()
+    const {notes, getNotesFromRoom} = useNote()
     const { user } = React.useContext(DataContext)
+    const [notesToShow, setNotesToShow] = React.useState([])
     React.useEffect(()=> {
-        getNotesFromUser(user.username)
-        
-        
-    },[])  */
-
-    const classes = useStyles()
-    
-    const notesToShow = notesAux.map(actualNote => {
+      getNotesFromRoom(user.personalRoom)
+      console.log("vamos")
+    },[])
+    React.useEffect(()=> {
+        setNotesToShow(notes.map(actualNote => {
       return (
-        <Grid item key={actualNote.title} xs="12" md="6" lg="4">
+        <Grid item key={actualNote.title} xs={12} md={6} lg={4} >
           <Paper>
 
             <Typography variant="h3">
@@ -63,11 +34,18 @@ export const NotesTable = (props) => {
           </Paper>
         </Grid>
       )
-    })
+    }))
+    },[notes]) 
+
+    const classes = useStyles()
+    
 
     return (
-      <Container fixed className={classes.containerDiv}>
-        <Grid container justifyContent="flex-start" spacing="1" >
+      <Container fixed className={classes.containerDiv} >
+        <Grid container justifyContent="flex-start" spacing={1} alignItems="center">
+          <Grid item key={"newNoteToAdd"} xs={12} md={6} lg={4}>
+            <NewNote/>
+          </Grid>
           {notesToShow}
         </Grid>
       </Container>

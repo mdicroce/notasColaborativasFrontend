@@ -1,17 +1,13 @@
-import React,  {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Typography, Fab, Tooltip,Toolbar, IconButton, Paper, Button,Menu, MenuList} from '@material-ui/core'
-import {Menu as MenuIcon, Delete as DeleteIcon, Add as AddIcon, AccountBalanceTwoTone} from '@material-ui/icons'
-import loginSvg from '../imgs/login.svg'
+import React,  { useEffect} from 'react'
+import { Container, AppBar, Typography,Toolbar, Paper, Button, Box} from '@material-ui/core'
+
 import logoPng from '../imgs/logopng.png'
-import { SignIn } from './loginView'
-import Register from './registerView'
-import { useNotes } from '../services/notes'
+
 import { DataContext } from '../context/contextProvider'
-import { useNote }  from '../hooks/useNote'
+
 import { NotesTable } from './showNotes'
 import { useStyles } from '../components/frontpage'
-import { NewNote } from '../components/newNote';
+
 
 
 const LoggedFrontPage = (props) => {
@@ -20,7 +16,7 @@ const LoggedFrontPage = (props) => {
     useEffect(()=>{setView(<NotesPage useStyles={props.useStyles}/>)},[])
 
     return (
-        <div>
+        <div >
             {view}
         </div>
     )
@@ -32,7 +28,6 @@ const NotesPage = (props) => {
         <div>
             <LoggedHeader classes={props.useStyles()} />
             <MainPage classes= {props.useStyles()}>
-                <NewNote/>
                 <NotesTable classes={props.useStyles()} />
             </MainPage>
         </div>
@@ -43,10 +38,10 @@ const MainPage = (props) =>
 {
     const classes = useStyles()
     return (
-        <Container className={classes.centerInfo}>
-            <Paper>
-                {props.children}
-            </Paper>
+        <Container className={classes.centerInfo} color="background">
+                
+            {props.children}
+                
         </Container>
     )
 }

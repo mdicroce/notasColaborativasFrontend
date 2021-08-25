@@ -4,10 +4,13 @@ import { useToken } from './useToken'
 
 export const useInitialUser = () => {
     const { setUser } = React.useContext(DataContext)
-    const {setNewToken} = useToken()
+    const {configureToken} = useToken()
     React.useEffect(()=>{
         const user = JSON.parse(window.localStorage.getItem('loggedUser'))
+        if(user)
+        {
+            configureToken(user.token)
+        }
         setUser(user)
-        setNewToken(user.token)
     }, [])
 }

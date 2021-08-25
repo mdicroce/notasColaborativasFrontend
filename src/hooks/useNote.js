@@ -7,8 +7,14 @@ export default function useNote () {
     const {user} = useContext(DataContext)
     const noteService = useNoteService()
     const [notes, setNotes] = useState([])
-    const postNewNote = (newNote) => {
-        noteService.postNote(newNote)
+    const postNewNote = async (newNote) => {
+        await noteService.postNote(newNote)
+        setNotes([...notes,newNote])
+        console.log(notes)
+    }
+    const getNotesFromRoom = async() => {
+        const response = await noteService.getAllFromRoom(user.personalRoom)
+        setNotes(response)
     }
     const getNotesFromUser = async () => {
         const response = await noteService.getAllFromUser(user.username)
@@ -45,5 +51,5 @@ export default function useNote () {
             }
         }))
     }
-    return { notes, postNewNote, getNotesFromUser, deleteNote, changeNote, commentNote}
+    return { notes, postNewNote, getNotesFromUser, getNotesFromRoom, deleteNote, changeNote, commentNote}
 }

@@ -2,12 +2,11 @@ import React from "react"
 import {DataContext} from '../context/contextProvider'
 
 export const useToken = (T = "") => {
-    const [newToken, setNewToken] = React.useState(`bearer ${T}`)
     const { setToken } = React.useContext(DataContext)
-    React.useEffect(()=> {
-        setToken(`bearer ${newToken}`)
-    },[newToken])
+    const configureToken = (token) => {
+        setToken(`bearer ${token}`)
+    }
     return {
-        setNewToken
+        configureToken
     }
 }

@@ -8,13 +8,13 @@ export const useLogin = () => {
     const username = useField({type: 'text'})
     const password = useField({type: 'password'})
     const rememberMe = useField({type: 'checkbox'})
-    const { setNewToken } = useToken('')
+    const { configureToken } = useToken()
     const { setUser } = useContext(DataContext)
     
     const onSubmitLogin = async (e) => {
         e.preventDefault()
         const response = await login({username : username.value, password : password.value})
-        setNewToken(response.token) 
+        configureToken(response.token) 
         setUser(response)
         if(rememberMe.value)
         {

@@ -8,6 +8,10 @@ export const useNoteService = () => {
     const config = {
         headers: {Authorization: token},
     }
+    const getAllFromRoom = async(roomId) => {
+        const response = await axios.get(`${baseUrl}/room/${roomId}`,config)
+        return response.data
+    }
     const getAllFromUser = async(username) => {
         const response = await axios.get(`${baseUrl}/user/${username}`,config)
         return response.data
@@ -19,6 +23,7 @@ export const useNoteService = () => {
     }
 
     const postNote = async(newObject) => {
+        console.log(config)
         const response = await axios.post(`${baseUrl}`,newObject, config)
         return response.data
     }
@@ -38,5 +43,5 @@ export const useNoteService = () => {
         return response.data
     }
 
-return { getAllFromUser, getNote, postNote, commentNote, deleteNote, changeNote }
+return { getAllFromUser, getAllFromRoom, getNote, postNote, commentNote, deleteNote, changeNote }
 }

@@ -3,7 +3,7 @@ import { Container, AppBar, Typography, Toolbar, Button} from '@material-ui/core
 import loginSvg from '../imgs/login.svg'
 import logoPng from '../imgs/logopng.png'
 import { SignIn } from './loginView'
-import Register from './registerView'
+import { SignUp } from './registerView'
 import { DataContext } from '../context/contextProvider';
 
 
@@ -37,7 +37,7 @@ const UnloggedFrontPageMain = (props) => {
     }
     const register = (e) => {
         e.preventDefault()
-        setView(<Register />)
+        setView(<SignUp/>)
     }
     return(
         <div>

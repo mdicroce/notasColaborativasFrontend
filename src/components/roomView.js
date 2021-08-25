@@ -54,7 +54,7 @@ const AddUser = ({}) => {
         return(
             <div>
                 <form onSubmit={onFormSubmit}>
-                    <label>Use the Mail or the Username to add a new User</label>
+                    <label>Use the EMail or the Username to add a new User</label>
                     <input type="text" onChange={(e)=>setInputValue(e.target.value)} value={inputValue}/>
                     <button type="submit">Search User</button>
                 </form>
@@ -63,7 +63,7 @@ const AddUser = ({}) => {
     }
 }
 const ShowUsers = ({owner, users}) => {
-    const mappedUsers = users.map(actual => <ShowActualUser key={users.id} username = {actual.username} mail = {actual.mail} />)
+    const mappedUsers = users.map(actual => <ShowActualUser key={users.id} username = {actual.username} email = {actual.email} />)
     
     return (
         <div>
@@ -75,7 +75,7 @@ const ShowUsers = ({owner, users}) => {
                     </tr>
                 </thead>
                 <tbody>
-                    <ShowActualUser username ={owner.username} mail= {owner.mail} />
+                    <ShowActualUser username ={owner.username} email= {owner.email} />
                     {mappedUsers}
                 </tbody>
             </table>
@@ -83,14 +83,14 @@ const ShowUsers = ({owner, users}) => {
     )
 }
 
-const ShowActualUser = ({username, mail}) => {
+const ShowActualUser = ({username, email}) => {
     return (
     <tr>
         <th>
             {username}
         </th>
         <th> 
-            {mail} 
+            {email} 
         </th>
     </tr>
     )

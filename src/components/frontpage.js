@@ -26,6 +26,11 @@ export const useStyles = makeStyles((theme) => ({
       alignItems: 'center'
       
   },
+  newNoteForm:{
+    padding: '1rem',
+    paddingTop: '0',
+    paddingBottom: '0.5rem'
+  },
   loginButtons: {
       width: '50%',
       minWidth: '200px',
@@ -67,8 +72,8 @@ export const useStyles = makeStyles((theme) => ({
   },
   containerDiv : {
     padding: '1rem',
-    backgroundColor: 'red'
   }
+
   
 }));
 
