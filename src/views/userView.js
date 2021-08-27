@@ -1,5 +1,5 @@
 import React,  { useEffect} from 'react'
-import { Container, AppBar, Typography,Toolbar, Paper, Button, Box} from '@material-ui/core'
+import { Container, AppBar, Typography,Toolbar, Button} from '@material-ui/core'
 
 import logoPng from '../imgs/logopng.png'
 
@@ -46,53 +46,16 @@ const MainPage = (props) =>
     )
 }
 
-
-/* const Notes = (props) => {
-    
-    const {notes, getNotesFromUser} = useNote()
-    const { user } = React.useContext(DataContext)
-    const notesToShow = notes.map((actualNote) => {
-        return (<ShowNote key={actualNote.id} note={actualNote}/>)
-    })
-    useEffect(()=> {
-        getNotesFromUser(user.username)
-        
-    },[]) 
-    return(
-        <div>
-            {notesToShow}
-        </div>
-    )
-} */
-const ShowNote = (props) => {
-    return (
-        <Container>
-            <Paper>
-                {/* <Tooltip title="Delete">
-                    <IconButton aria-label="delete">
-                        <DeleteIcon />
-                    </IconButton>
-                    </Tooltip>
-                    <Tooltip title="Add" aria-label="add">
-                    <Fab color="primary" >
-                        <AddIcon />
-                    </Fab>
-                    </Tooltip>
-                    <Tooltip title="Add" aria-label="add">
-                    <Fab color="secondary" >
-                        <AddIcon />
-                    </Fab>
-                    </Tooltip> */}
-            </Paper>
-        </Container>
-    )
-}
-
 const LoggedHeader = (props) => {
+
+    const { setUser, setView, setToken } = React.useContext(DataContext)
     const loggout = (e) => {
         e.preventDefault()
         window.localStorage.removeItem('loggedUser')
-        props.setLoggedUser(null)
+        setUser()
+        setToken()
+        setView()
+        
     }
     const classes = props.classes
     return(
@@ -104,9 +67,9 @@ const LoggedHeader = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         Noted
                     </Typography>
-                    <Button onClick={loggout} color="inherit">Notes</Button>
+                    <Button  color="inherit">Notes</Button>
                     <Button color="inherit">Rooms</Button>
-                    <Button color="inherit" >Logout</Button>
+                    <Button color="inherit" onClick={loggout} >Logout</Button>
                 </Toolbar>
             </AppBar>
         </div>

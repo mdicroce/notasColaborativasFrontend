@@ -1,40 +1,48 @@
 import React,  { useState, useEffect } from 'react'
 import roomServices from '../services/rooms'
 import userServices from '../services/users'
+import Container  from '@material-ui/core/Container'
+import Paper from '@material-ui/core/Paper'
+import TextField from '@material-ui/core/TextField'
+import { IconButton } from '@material-ui/core'
+import { useField } from '../hooks/useField'
+import { AddCircle } from '@material-ui/icons'
 
 const Room = (props) => {
-    
-    const [room, setRoom] = useState({})
-    useEffect(()=>{
-        roomServices.getRoom(props.roomId)
-        .then(response => {
-            setRoom(response)
-        })
-    },[props.roomId])
+    <Container>
+        <NewRoom/>
 
-    
-    useEffect(() => {roomServices.changeRoom()}, [room])
-
-    
+        
+    </Container>
 }
 
-const ShowNotes = ({notes}) => {
-    const mappedNotes = notes.map(actual => <ShowActualNote title={actual.title} owner={actual.owner} completed={actual.complete} date={actual.date} />)
-    return (
-        <div>
-            {mappedNotes}
-        </div>
-    )
-}
-
-const ShowActualNote = ({title, owner, completed, date}) =>
+const NewRoom = () =>
 {
+    const onSubmitRoom = (e) => {
+        e.preventDefault()
+        
+    }
+    const {roomName} = useField({type: 'text'})
     return (
-        <div onClick={()=>{}}>
-            <span>{title}</span>
-            <span>{owner}</span>
-            <span> {date} </span>
-        </div>
+        <Container>
+            <Paper>
+                <form onSubmit={}>
+                    <TextField
+                        variant='outlined'
+                        margin='normal'
+                        {...roomName}
+                        required
+                        fullWidth
+                        id='roomName'
+                        label='Rooms Name'
+                        name='roomName'
+                    />
+                    <IconButton aria-label="delete" type="submit">
+                        <AddCircle aria-label="Add Room" />
+                    </IconButton>
+                </form>
+            </Paper>
+        </Container>
     )
 }
 

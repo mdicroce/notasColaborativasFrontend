@@ -1,6 +1,5 @@
-import React,  {useState} from 'react'
+import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import { Container, AppBar, Typography, Toolbar, IconButton, Button,Menu, MenuList} from '@material-ui/core'
 import UnloggedFrontPage from '../views/frontPageLoggout';
 import LoggedFrontPage from '../views/userView';
 import { DataContext } from '../context/contextProvider';
@@ -79,6 +78,7 @@ export const useStyles = makeStyles((theme) => ({
 
 const FrontPage = () => {
   const { user } = React.useContext(DataContext)
+  
     if(user)
     {
         return (

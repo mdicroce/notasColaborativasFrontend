@@ -6,10 +6,13 @@ export function useField ({type, defaultValue = ""}) {
     const onChange = event => {
         setValue(event.target.value)
     }
-
+    const resetValue = () => {
+        setValue("")
+    }
     return {
         type,
         value,
-        onChange
+        onChange,
+        resetValue
     }
 }

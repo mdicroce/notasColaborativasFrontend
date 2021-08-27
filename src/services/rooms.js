@@ -1,14 +1,23 @@
 import axios from 'axios'
-import exportedToken from './token'
+import { useContext } from 'react'
+import { DataContext } from '../context/contextProvider'
+
 const baseUrl = 'http://localhost:3001/api/rooms'
 
-let config = exportedToken.config
+export const useRoomService = () => {
+    const { token } = useContext(DataContext)
+    const config = {
+        headers: {Authorization: token},
+    }
 
-
-const getRoom = async (id) => {
+    const getRoom = async (id) => {
     const response = await axios.get(`${baseUrl}/${id}`, config)
     return response.data
 }
+    const getRoomsFromUser = async() => {
+        const response = await axios.get(`${baseUrl}/`,config)
+        return response.data
+    }
 
 const postRoom = async(newObject) => {
     const response = await axios.post(`${baseUrl}`,newObject, config)
@@ -24,7 +33,7 @@ const deleteRoom = async(id) => {
     const response = await axios.delete(`${baseUrl}/${id}`, config)
     return response.data
 }
+return {getRoom, getRoomsFromUser, postRoom, changeRoom, deleteRoom}
+}
 
 
-const exportedObjedt = { getRoom, postRoom, changeRoom, deleteRoom }
-export default exportedObjedt

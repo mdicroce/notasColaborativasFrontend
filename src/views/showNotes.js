@@ -1,5 +1,5 @@
 import React from 'react'
-import  useNote  from '../hooks/useNote'
+import  { useNote }  from '../hooks/useNote'
 import { DataContext } from '../context/contextProvider'
 import Grid from '@material-ui/core/Grid'
 import { Container, Typography } from '@material-ui/core'
@@ -9,7 +9,7 @@ import { NewNote } from '../components/newNote'
 
 export const NotesTable = (props) => {
     
-    const {notes, getNotesFromRoom} = useNote()
+    const {notes, getNotesFromRoom, postNewNote} = useNote()
     const { user } = React.useContext(DataContext)
     const [notesToShow, setNotesToShow] = React.useState([])
     React.useEffect(()=> {
@@ -44,7 +44,7 @@ export const NotesTable = (props) => {
       <Container fixed className={classes.containerDiv} >
         <Grid container justifyContent="flex-start" spacing={1} alignItems="center">
           <Grid item key={"newNoteToAdd"} xs={12} md={6} lg={4}>
-            <NewNote/>
+            <NewNote postNewNote={postNewNote}/>
           </Grid>
           {notesToShow}
         </Grid>

@@ -5,12 +5,13 @@ import logoPng from '../imgs/logopng.png'
 import { SignIn } from './loginView'
 import { SignUp } from './registerView'
 import { DataContext } from '../context/contextProvider';
+import { useStyles } from '../components/frontpage'
 
 
-const UnloggedFrontPage = (props) => {
+const UnloggedFrontPage = () => {
 
     const { view, setView } = React.useContext(DataContext)
-    useEffect(()=>{setView(<UnloggedFrontPageA useStyles={props.useStyles} />)},[])
+    useEffect(()=>{setView(<UnloggedFrontPageA />)},[])
 
     return (
         <div>
@@ -19,17 +20,17 @@ const UnloggedFrontPage = (props) => {
     )
 }
 
-const UnloggedFrontPageA = (props) => {
+const UnloggedFrontPageA = () => {
     
     return (
         <div>
-            <UnloggedFrontPageHeader classes={props.useStyles()}/>
-            <UnloggedFrontPageMain classes={props.useStyles()}/>
+            <UnloggedFrontPageHeader/>
+            <UnloggedFrontPageMain/>
         </div>
     )
 }
-const UnloggedFrontPageMain = (props) => {
-    const classes = props.classes
+const UnloggedFrontPageMain = () => {
+    const classes = useStyles()
     const { setView } = React.useContext(DataContext)
     const logIn = (e) => {
         e.preventDefault()
@@ -61,8 +62,9 @@ const UnloggedFrontPageMain = (props) => {
     )
 }
 
-const UnloggedFrontPageHeader = ({classes, setViewToShow, setLoggedUser}) => {
+const UnloggedFrontPageHeader = () => {
     const {setView} = React.useContext(DataContext)
+    const classes = useStyles()
     return(
         <div className={classes.root}>
             <AppBar position="static">

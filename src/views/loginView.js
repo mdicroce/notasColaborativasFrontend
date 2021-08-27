@@ -1,15 +1,15 @@
-import React,  {useState, useEffect} from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import React from 'react'
 import { Button, Avatar, TextField, FormControlLabel, Checkbox, Link, Grid, Typography, Container } from '@material-ui/core'
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import { useLogin } from '../hooks/useLogin';
-import loginSvg from '../imgs/login.svg'
-import logoPng from '../imgs/logopng.png'
-import { useStyles } from '../components/frontpage';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+import { useLogin } from '../hooks/useLogin'
+import { useStyles } from '../components/frontpage'
+import { SignUp } from './registerView'
+import { DataContext } from '../context/contextProvider'
 
 export const SignIn = () => {
     const classes = useStyles()
     const { username, password, rememberMe, onSubmitLogin } = useLogin()
+    const { setView } = React.useContext(DataContext)
 
     return (
         <Container component='main' maxWidth='xs'>
@@ -59,13 +59,11 @@ export const SignIn = () => {
                         Login
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                            <Link href='#' variant='body2'>
-                                Forgot password?
-                            </Link>
-                        </Grid>
                         <Grid item>
-                            <Link href='#' variant='body2'>
+                            <Link href='#' onClick={(e)=>{
+                                e.preventDefault()
+                                setView(<SignUp />)
+                            }} variant='body2'>
                                 {"Don't have an account? please register"}
                             </Link>
                         </Grid>

@@ -2,7 +2,6 @@ import { Button, Collapse, Paper, TextField } from '@material-ui/core'
 import React from 'react'
 import { useStyles } from './frontpage'
 import { useField } from '../hooks/useField'
-import  useNote  from '../hooks/useNote'
 import AddIcon from '@material-ui/icons/Add';
 import CloseIcon from '@material-ui/icons/Close';
 import { DataContext } from '../context/contextProvider'
@@ -33,16 +32,18 @@ const ShowNewNote = (props) => {
     )
 }
 
-export const NewNote = () => {
+export const NewNote = ({postNewNote}) => {
     const {user} = React.useContext(DataContext)
     const classes = useStyles()
     const title = useField({type: 'text'})
     const content = useField({type: 'text'})
     const date = useField({type: 'date'})
-    const { postNewNote } = useNote()
     const onSub = (e) => {
         e.preventDefault()
         const newNote = {title: title.value ,content: content.value,date: date.value, room: user.personalRoom}
+        title.resetValue()
+        content.resetValue()
+        date.resetValue()
         postNewNote(newNote)
     }  
     

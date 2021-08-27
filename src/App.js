@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react'
-import { DataContext } from './context/contextProvider'
+import React from 'react'
 import './App.css'
 import FrontPage from './components/frontpage'
 import { useInitialUser } from './hooks/useInitialUser'

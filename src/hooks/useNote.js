@@ -3,14 +3,13 @@ import { DataContext } from '../context/contextProvider'
 import { useNoteService } from '../services/notes'
 
 
-export default function useNote () {
+export function useNote () {
     const {user} = useContext(DataContext)
     const noteService = useNoteService()
     const [notes, setNotes] = useState([])
     const postNewNote = async (newNote) => {
-        await noteService.postNote(newNote)
+        noteService.postNote(newNote)
         setNotes([...notes,newNote])
-        console.log(notes)
     }
     const getNotesFromRoom = async() => {
         const response = await noteService.getAllFromRoom(user.personalRoom)
