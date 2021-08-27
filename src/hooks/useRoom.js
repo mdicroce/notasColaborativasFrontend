@@ -2,7 +2,7 @@ import {useState} from 'react'
 import { useRoomService } from '../services/rooms'
 
 
-export function useNote () {
+export function useRoom () {
     const roomService = useRoomService()
     const [rooms, setRooms] = useState([])
     const postNewRoom = async (newRoom) => {

@@ -8,15 +8,18 @@ import { DataContext } from '../context/contextProvider'
 import { NotesTable } from './showNotes'
 import { useStyles } from '../components/frontpage'
 
+import { Room } from '../components/roomView'
 
 
-const LoggedFrontPage = (props) => {
+
+const LoggedFrontPage = () => {
 
     const { view, setView } = React.useContext(DataContext)
-    useEffect(()=>{setView(<NotesPage useStyles={props.useStyles}/>)},[])
+    useEffect(()=>{setView(<NotesPage/>)},[])
 
     return (
         <div >
+            <LoggedHeader />
             {view}
         </div>
     )
@@ -26,9 +29,9 @@ const NotesPage = (props) => {
     
     return (
         <div>
-            <LoggedHeader classes={props.useStyles()} />
-            <MainPage classes= {props.useStyles()}>
-                <NotesTable classes={props.useStyles()} />
+            
+            <MainPage>
+                <NotesTable />
             </MainPage>
         </div>
     )
@@ -54,10 +57,17 @@ const LoggedHeader = (props) => {
         window.localStorage.removeItem('loggedUser')
         setUser()
         setToken()
-        setView()
-        
+        setView()   
     }
-    const classes = props.classes
+    const showNotes = (e) => {
+        e.preventDefault()
+        setView(<NotesPage/>)
+    }
+    const showRooms = (e) => {
+        e.preventDefault()
+        setView(<Room/>)
+    }
+    const classes = useStyles()
     return(
         <div className={classes.root}>
             <AppBar position="static">
@@ -67,8 +77,8 @@ const LoggedHeader = (props) => {
                     <Typography variant="h6" className={classes.title}>
                         Noted
                     </Typography>
-                    <Button  color="inherit">Notes</Button>
-                    <Button color="inherit">Rooms</Button>
+                    <Button color="inherit" onClick={showNotes}>Notes</Button>
+                    <Button color="inherit" onClick={showRooms}>Rooms</Button>
                     <Button color="inherit" onClick={loggout} >Logout</Button>
                 </Toolbar>
             </AppBar>

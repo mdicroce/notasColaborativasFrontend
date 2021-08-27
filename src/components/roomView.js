@@ -1,41 +1,57 @@
 import React,  { useState, useEffect } from 'react'
-import roomServices from '../services/rooms'
-import userServices from '../services/users'
+import { useRoom } from '../hooks/useRoom'
 import Container  from '@material-ui/core/Container'
 import Paper from '@material-ui/core/Paper'
 import TextField from '@material-ui/core/TextField'
 import { IconButton } from '@material-ui/core'
 import { useField } from '../hooks/useField'
 import { AddCircle } from '@material-ui/icons'
+import { TableContainer } from '@material-ui/core'
+import { Table } from '@material-ui/core'
+import { TableHead } from '@material-ui/core'
+import { TableRow } from '@material-ui/core'
+import { TableCell } from '@material-ui/core'
+import { TableBody } from '@material-ui/core'
 
-const Room = (props) => {
-    <Container>
-        <NewRoom/>
-
-        
-    </Container>
+export const Room = () => {
+    const { postNewRoom, rooms, getRoomsFromUser } = useRoom()
+    return (<Container>
+        <NewRoom postNewRoom={postNewRoom}/>
+        <SeeRooms rooms={rooms} getRoomsFromUser={getRoomsFromUser}/>
+        </Container>
+    )
 }
 
-const NewRoom = () =>
+const NewRoom = ({ postNewRoom }) =>
 {
+    const { roomName } = useField({type: 'text'})
+    const { password } = useField({type: 'password'})
     const onSubmitRoom = (e) => {
         e.preventDefault()
-        
+        postNewRoom({roomName: roomName.value, password: password.value})
+        roomName.resetValue()
+        password.resetValue()
     }
-    const {roomName} = useField({type: 'text'})
     return (
         <Container>
             <Paper>
-                <form onSubmit={}>
+                <form onSubmit={onSubmitRoom}>
                     <TextField
                         variant='outlined'
                         margin='normal'
                         {...roomName}
                         required
                         fullWidth
-                        id='roomName'
                         label='Rooms Name'
                         name='roomName'
+                    />
+                    <TextField
+                        variant='outlined'
+                        margin='normal'
+                        {...password}
+                        fullWidth
+                        label='Room Pass'
+                        name='password'
                     />
                     <IconButton aria-label="delete" type="submit">
                         <AddCircle aria-label="Add Room" />
@@ -46,60 +62,42 @@ const NewRoom = () =>
     )
 }
 
-const AddUser = ({}) => {
-    const [showForm, setShowForm] = useState(false)
-    const [inputValue, setInputValue] = useState('')
-    const [usersToAdd = setUsersToAdd] = useState('')
-    const onFormSubmit = (e)=>{
-        e.preventDefault()
-        const allUsers = userServices.getUser(inputValue)
-        .then(response => {
-            return response
-        })
-    }
-    if(showForm)
-    {
-        return(
-            <div>
-                <form onSubmit={onFormSubmit}>
-                    <label>Use the EMail or the Username to add a new User</label>
-                    <input type="text" onChange={(e)=>setInputValue(e.target.value)} value={inputValue}/>
-                    <button type="submit">Search User</button>
-                </form>
-            </div>
-        )
-    }
-}
-const ShowUsers = ({owner, users}) => {
-    const mappedUsers = users.map(actual => <ShowActualUser key={users.id} username = {actual.username} email = {actual.email} />)
-    
+const SeeRooms = ({rooms, getRoomsFromUser}) => {
+    const [ roomRow, setRoomRow ] = useState([])
+    useEffect(()=>{
+        getRoomsFromUser()
+    }, [getRoomsFromUser])
+    useEffect(()=>{
+        setRoomRow(rooms.map((room)=>{
+            return ( <RoomList roomName={room.roomName} owner={room.owner.username} cuantityOfUsers={room.users.length} cuantityOfNotes={room.notes.length}/> )
+        }))
+    },[rooms])
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Username</th>
-                        <th>Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ShowActualUser username ={owner.username} email= {owner.email} />
-                    {mappedUsers}
-                </tbody>
-            </table>
-        </div>
+        <TableContainer component={Paper}>
+            <Table>
+                <TableHead>
+                    <TableRow>
+                        <TableCell>Room Name</TableCell>
+                        <TableCell>Owner</TableCell>
+                        <TableCell>Users</TableCell>
+                        <TableCell>Notes</TableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {roomRow}
+                </TableBody>
+            </Table>
+        </TableContainer>
     )
 }
 
-const ShowActualUser = ({username, email}) => {
-    return (
-    <tr>
-        <th>
-            {username}
-        </th>
-        <th> 
-            {email} 
-        </th>
-    </tr>
+const RoomList = ({roomName, owner, cuantityOfUsers, cuantityOfNotes}) => {
+    return(
+        <TableRow>
+            <TableCell>{roomName}</TableCell>
+            <TableCell> { owner } </TableCell>
+            <TableCell> { cuantityOfUsers } </TableCell>
+            <TableCell> { cuantityOfNotes } </TableCell>
+        </TableRow>
     )
 }
