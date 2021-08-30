@@ -7,7 +7,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { DataContext } from '../context/contextProvider'
 
 
-const ShowNewNote = (props) => {
+export const ShowForm = (props) => {
     
     const [show, setShow] = React.useState(false)
     const [startIcon, setStartIcon] = React.useState(<AddIcon />)
@@ -23,12 +23,12 @@ const ShowNewNote = (props) => {
         
     }
     return (
-        <Paper>
+        <>
             <Button startIcon={startIcon}  onClick={onClick} fullWidth color={'primary'} variant="contained"/>
                 <Collapse in={show}>
                     {props.children}
                 </Collapse>
-        </Paper>
+        </>
     )
 }
 
@@ -49,48 +49,50 @@ export const NewNote = ({postNewNote}) => {
     
 
     return (
-        <ShowNewNote >
+        <ShowForm >
+            <Paper>
+
+                <form className={classes.newNoteForm} onSubmit={onSub} noValidate>
+                    <TextField 
+                    fullWidth
+                    {...title}
+                    label='title'
+                    name='title'
+                    />
+                    <TextField 
+                    {...content}
+                    multiline
+                    fullWidth
+                    label='Content'
+                    name='Content' 
+                    />
+                    <TextField
+                    label="Date"
+                    {...date}
+                    fullWidth
+                    InputLabelProps={{
+                    shrink: true,
+                    }}
+                    />
+                    
+                        <Button 
+                            style={{marginTop: '0.5rem'}}
+                            fullWidth
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            className={classes.button}
+                            startIcon={<AddIcon />}
+                            size="large"
+                            
+                        >
+                            Add Note
+                        </Button>
+                    
+                </form>
+            </Paper>
             
-            <form className={classes.newNoteForm} onSubmit={onSub} noValidate>
-                <TextField 
-                fullWidth
-                {...title}
-                label='title'
-                name='title'
-                />
-                <TextField 
-                {...content}
-                multiline
-                fullWidth
-                label='Content'
-                name='Content' 
-                />
-                <TextField
-                label="Date"
-                {...date}
-                fullWidth
-                InputLabelProps={{
-                shrink: true,
-                }}
-                />
-                
-                    <Button 
-                        style={{marginTop: '0.5rem'}}
-                        fullWidth
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        className={classes.button}
-                        startIcon={<AddIcon />}
-                        size="large"
-                        
-                    >
-                        Add Note
-                    </Button>
-                
-            </form>
-            
-        </ShowNewNote>
+        </ShowForm>
         
     )
 }

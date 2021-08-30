@@ -71,6 +71,11 @@ export const useStyles = makeStyles((theme) => ({
   },
   containerDiv : {
     padding: '1rem',
+  },
+  roomTable: {
+    '&:hover':{
+      backgroundColor: "#efefef"
+    }
   }
 
   

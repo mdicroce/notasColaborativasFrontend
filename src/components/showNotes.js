@@ -4,8 +4,8 @@ import { DataContext } from '../context/contextProvider'
 import Grid from '@material-ui/core/Grid'
 import { Container, Typography } from '@material-ui/core'
 import { Paper } from '@material-ui/core'
-import { useStyles } from '../components/frontpage'
-import { NewNote } from '../components/newNote'
+import { useStyles } from './frontpage'
+import { NewNote } from './newNote'
 
 export const NotesTable = (props) => {
     
@@ -39,11 +39,11 @@ export const NotesTable = (props) => {
 
     const classes = useStyles()
     
-
+  
     return (
       <Container fixed className={classes.containerDiv} >
         <Grid container justifyContent="flex-start" spacing={1} alignItems="center">
-          <Grid item key={"newNoteToAdd"} xs={12} md={6} lg={4}>
+          <Grid item key={"newNoteToAdd"} xs={12} md={12}>
             <NewNote postNewNote={postNewNote}/>
           </Grid>
           {notesToShow}

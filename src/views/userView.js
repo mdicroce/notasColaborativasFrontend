@@ -5,10 +5,10 @@ import logoPng from '../imgs/logopng.png'
 
 import { DataContext } from '../context/contextProvider'
 
-import { NotesTable } from './showNotes'
+import { NotesTable } from '../components/showNotes'
 import { useStyles } from '../components/frontpage'
 
-import { Room } from '../components/roomView'
+import { Room } from './roomView'
 
 
 
