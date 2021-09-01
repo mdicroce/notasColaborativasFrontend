@@ -17,12 +17,12 @@ export const NewRoom = ({ postNewRoom }) =>
         password.resetValue()
     }
     return (
-        <Container maxWidth="md" style={{ margin: "1rem 0", textAlign:"center"}}>
+        <Container style={{ margin: "1rem auto",   textAlign:"center", backgroundColor: "red"}}>
                 <Paper style={{width: "85%", margin: "0 auto"}}>
             <ShowForm>
                     <form onSubmit={onSubmitRoom}>
-                        <Grid style={{padding: "0 1rem 1rem"}} container md="auto" alignItems="center" alignContent="flex-start" spacing="0" justifyContent="center">
-                            <Grid item md="6" sm="12">
+                        <Grid style={{padding: "0 1rem 1rem"}} container alignItems="center" alignContent="flex-start" spacing={2} justifyContent="center">
+                            <Grid item md={6} sm={12}>
                                 <TextField
                                     margin='normal'
                                     {...roomName}
@@ -32,7 +32,7 @@ export const NewRoom = ({ postNewRoom }) =>
                                     name='roomName'
                                 />
                             </Grid>
-                            <Grid item md="6" sm="12">
+                            <Grid item md={6} sm={12}>
                                 <TextField
                                     
                                     margin='normal'
@@ -42,7 +42,7 @@ export const NewRoom = ({ postNewRoom }) =>
                                     name='password'
                                 />
                             </Grid>
-                            <Grid item md="12" sm="12">
+                            <Grid item md={12} sm={12}>
                                 <Button 
                                     style={{marginTop: '0.5rem'}}
                                     fullWidth

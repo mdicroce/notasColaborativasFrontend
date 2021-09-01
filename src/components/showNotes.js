@@ -18,8 +18,9 @@ export const NotesTable = (props) => {
     },[])
     React.useEffect(()=> {
         setNotesToShow(notes.map(actualNote => {
+          
       return (
-        <Grid item key={actualNote.title} xs={12} md={6} lg={4} >
+        <Grid item key={actualNote._id} xs={12} md={6} lg={4} >
           <Paper>
 
             <Typography variant="h3">

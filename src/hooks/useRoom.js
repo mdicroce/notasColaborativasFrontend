@@ -1,29 +1,37 @@
-import {useState} from 'react'
+import {useState, useMemo} from 'react'
 import { useRoomService } from '../services/rooms'
 
 
 export function useRoom () {
-    const roomService = useRoomService()
+    const { changeRoomService, deleteRoomService, getRoomService, getRoomsFromUserService, postRoomService } = useRoomService()
     const [rooms, setRooms] = useState([])
-    const postNewRoom = async (newRoom) => {
-        roomService.postRoom(newRoom)
+
+    const postNewUserToRoom = useMemo(()=> async(id,newUser)=>{
+        const response = await changeRoomService(id, {"username": newUser})
+        return response.data
+    },[changeRoomService])
+
+    const postNewRoom = useMemo(() => async (newRoom) => {
+        postRoomService(newRoom)
         setRooms([...rooms,newRoom])
-    }
+    },[postRoomService, rooms])
+
     const getRoomsFromUser = async() => {
-        const response = await roomService.getRoomsFromUser()
+        const response = await getRoomsFromUserService()
         setRooms(response)
     }
-    const getRoom = async (id) => {
-        const response = await roomService.getRoom(id)
+    const getRoom = useMemo(() => async (id) => {
+        const response = await getRoomService(id)
         setRooms(response)
-    }
+        return response
+    },[getRoomService])
     const deleteRoom = async (id) => {
-        roomService.deleteRoom(id)
-        const response = await roomService.getRoomsFromUser()
+        deleteRoomService(id)
+        const response = await getRoomsFromUser()
         setRooms(response)
     }
     const changeNote = async(id,newObject) => {
-        roomService.changeRoom(id,newObject)
+        changeRoomService(id,newObject)
         setRooms(rooms.map((actual)=>{
             if(actual.id === id)
             {
@@ -36,5 +44,5 @@ export function useRoom () {
         }))
     }
 
-    return { rooms, postNewRoom, getRoomsFromUser, getRoom, deleteRoom, changeNote}
+    return { rooms, postNewRoom, getRoomsFromUser, getRoom, deleteRoom, changeNote,postNewUserToRoom}
 }

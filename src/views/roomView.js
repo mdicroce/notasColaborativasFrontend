@@ -10,6 +10,8 @@ import { TableCell } from '@material-ui/core'
 import { TableBody } from '@material-ui/core'
 import { useStyles } from '../components/frontpage'
 import { NewRoom } from '../components/newRoom'
+import { FocusRoomView } from './roomFocus'
+import { DataContext } from '../context/contextProvider'
 
 export const Room = () => {
     const { postNewRoom, rooms, getRoomsFromUser } = useRoom()
@@ -28,11 +30,11 @@ const SeeRooms = ({rooms, getRoomsFromUser}) => {
     useEffect(()=>{
         setRoomRow(rooms.map((room)=>{
             console.log(room)
-            return ( <RoomList key={room.id} id={room.id} roomName={room.roomName} owner={room.owner.username} cuantityOfUsers={room.users.length} cuantityOfNotes={room.notes.length}/> )
+            return ( <RoomList key={room._id} id={room._id} roomName={room.roomName} owner={room.owner.username} cuantityOfUsers={room.users.length} cuantityOfNotes={room.notes.length}/> )
         }))
     },[rooms])
     return (
-        <Container>
+        <Container style={{backgroundColor:"blue"}}>
             <TableContainer component={Paper} style={{width: "85%", margin: "0 auto"}}>
                 <Table>
                     <TableHead>
@@ -54,8 +56,13 @@ const SeeRooms = ({rooms, getRoomsFromUser}) => {
 
 const RoomList = ({id, roomName, owner, cuantityOfUsers, cuantityOfNotes}) => {
     const classes = useStyles()
+    const { setView } = React.useContext(DataContext)
+    const onClick = (e) => {
+        e.preventDefault()
+        setView(<FocusRoomView id={id} owner={owner} />)
+    }
     return(
-        <TableRow className={classes.roomTable} onClick={()=>{alert("holamundo")}}>
+        <TableRow className={classes.roomTable} onClick={onClick}>
             <TableCell>{roomName}</TableCell>
             <TableCell> { owner } </TableCell>
             <TableCell> { cuantityOfUsers } </TableCell>

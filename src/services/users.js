@@ -1,12 +1,13 @@
 import axios from 'axios'
+import { useMemo } from 'react'
     const baseUrl = 'http://localhost:3001/api/users'
 
 
 export const useUser = () => {
-    const getUser = async (user) => {
-        const response = await axios.get(`${baseUrl}/${user}`)
+    const getUser = useMemo(() => {return async (user = "") => {
+        const response = await axios.get(`${baseUrl}/search/${user}`)
         return response.data
-    }
+    }},[])
     
     const registerNewUser = async (newObject) => {
         await axios.post(baseUrl, newObject)

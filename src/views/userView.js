@@ -25,7 +25,7 @@ const LoggedFrontPage = () => {
     )
 }
 
-const NotesPage = (props) => {
+export const NotesPage = (props) => {
     
     return (
         <div>

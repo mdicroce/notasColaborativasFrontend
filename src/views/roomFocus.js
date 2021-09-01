@@ -1,22 +1,107 @@
 import React from 'react'
 import { useRoom } from '../hooks/useRoom'
-import { Container, Grid, Paper, List, ListItem, ListItemText, Divider } from '@material-ui/core'
+import { Container, Grid, Paper, List, ListItem, ListItemText, Divider, TextField, Button, Typography } from '@material-ui/core'
+import { DataContext } from '../context/contextProvider'
+import { useUser } from '../services/users'
+import { NotesPage } from '../views/userView'
+import { Autocomplete } from '@material-ui/lab'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle'
+import { AddCircle } from '@material-ui/icons'
+import { useStyles } from '../components/frontpage'
 
-
-export const FocusRoomView = ({id}) => {
+export const FocusRoomView = ({id, owner}) => {
     const { room, getRoom } = useRoom()
+    const { user } = React.useContext(DataContext)
+    const { setView } = React.useContext(DataContext)
+    const [ seeForm, setSeeForm ] = React.useState(false)
     React.useEffect(()=>{
         getRoom(id)
-    },[])
+        setSeeForm(owner === user.username)
+    },[getRoom, id, setSeeForm, owner, user])
     return(
         <Container>
-            
+            <Button onClick={((e)=>{e.preventDefault();setView(<NotesPage/>);})}>fafa</Button>
+            {seeForm ? <AddNewUserToRoom room={room} /> : ""}
         </Container>
     )
 }
 
-const AddNewUserToRoom = () => {
+const AddNewUserToRoom = ({room}) => {
     
+    const classes = useStyles()
+    const { postNewUserToRoom } = useRoom()
+    const [searchForm, setSearchForm] = React.useState('')
+    const [inputValue, setInputValue] = React.useState('')
+    const [options, setOptions] = React.useState([])
+    const {getUser} = useUser()
+    const onSubmit = (e) => {
+        e.preventDefault()
+        postNewUserToRoom(room.id, inputValue)
+    }
+    const onChangeField = async (e, newValue) => {
+        setOptions(newValue ? [newValue, ...options] : options)
+        setSearchForm(e.target.value)
+    }
+    React.useEffect(() => {
+        getUser(inputValue)
+        .then(results => {
+            let newOptions = []
+            if(inputValue)
+            {
+                
+            }
+            if(results)
+            {
+                newOptions = [...newOptions, ...results.map(actualResult => actualResult.username)]
+            }
+            console.log(newOptions)
+            setOptions(newOptions)
+        })
+
+    }, [searchForm, inputValue, getUser])
+    console.log(room)
+        return (
+            <div>
+                <Container maxWidth="sm">
+                    <Paper style={{padding: "1rem"}}>
+                        <form onSubmit={onSubmit}>
+                            <Grid  container alignItems="center">
+                                <Grid item xs>
+                                    <Autocomplete 
+                                    options={options} 
+                                    value={inputValue} 
+                                    includeInputInList
+                                    onInputChange = { (e, newInputValue) => {setInputValue(newInputValue)} }
+                                    getOptionLabel={(option) => option} 
+                                    onChange={onChangeField}  
+                                    fullWidth
+                                    renderInput={(params) => <TextField size="small" {...params} variant="standard"/> } 
+                                    renderOption={(option) => {
+                                        console.info(option)
+                                        return (
+                                            <Grid container alignItems="center">
+                                                <Grid item>
+                                                    <AccountCircleIcon/>
+                                                </Grid>
+                                                <Grid item xs>
+                                                    <Typography variant="body" color="textPrimary">
+                                                        {option}
+                                                    </Typography>
+                                                </Grid>
+                                            </Grid>
+                                        )
+                                    }}
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Button fullWidth color="primary" type="submit" variant="text" className={classes.button} startIcon={<AddCircle />} size="medium">Add</Button>
+                                </Grid>
+                            </Grid>
+                        </form>
+                    </Paper>
+                </Container>
+            </div>
+        )
 }
 
 const ShowUsers = ({users}) => {
