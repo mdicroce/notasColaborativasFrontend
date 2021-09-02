@@ -8,9 +8,10 @@ import { Autocomplete } from '@material-ui/lab'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import { AddCircle } from '@material-ui/icons'
 import { useStyles } from '../components/frontpage'
+import { ShowForm } from '../components/newNote'
 
 export const FocusRoomView = ({id, owner}) => {
-    const { room, getRoom } = useRoom()
+    const { rooms, getRoom } = useRoom()
     const { user } = React.useContext(DataContext)
     const { setView } = React.useContext(DataContext)
     const [ seeForm, setSeeForm ] = React.useState(false)
@@ -25,8 +26,7 @@ export const FocusRoomView = ({id, owner}) => {
     
     return(
         <Container>
-            <Button onClick={((e)=>{e.preventDefault();setView(<NotesPage/>);})}>fafa</Button>
-            {seeForm ? <AddNewUserToRoom room={room} /> : ""}
+            {seeForm ? <AddNewUserToRoom room={rooms[0]} /> : ""}
             {seeForm ? <ShowUsers users={ roomUsers } /> : ""}
         </Container>
     )
@@ -42,7 +42,7 @@ const AddNewUserToRoom = ({room}) => {
     const {getUser} = useUser()
     const onSubmit = (e) => {
         e.preventDefault()
-        postNewUserToRoom(room.id, inputValue)
+        postNewUserToRoom(room._id, inputValue)
     }
     const onChangeField = async (e, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options)
@@ -68,7 +68,7 @@ const AddNewUserToRoom = ({room}) => {
     
         return (
             <div>
-                <Container maxWidth="sm">
+                <Container style={{ padding: "2rem 0 1rem 0" }}  maxWidth="sm">
                     <Paper style={{padding: "1rem"}}>
                         <form onSubmit={onSubmit}>
                             <Grid  container alignItems="center">
@@ -121,17 +121,25 @@ const ShowUsers = ({users}) => {
             }))
     },[users])
     return(
-        <Container>
-            <Grid container>
-                {usersToShow}
-            </Grid>
+        <Container style={{padding: "1rem 0"}}>
+            <ShowForm text="Show Users">
+                <Paper style={{ padding: "1rem" }}  variant="outlined">
+
+                    <Typography variant="h2">
+                        Users
+                    </Typography>
+                    <Grid container spacing={3}>
+                        {usersToShow}
+                    </Grid>
+                </Paper>
+            </ShowForm>
         </Container>
     )
 }
 
 const ShowOneUser = ({user}) => {
     return(
-        <Grid item sm="12" xl="3">
+        <Grid item sm={12}  md={4} lg={3}>
             <Paper>
                 <List>
                     <ListItem>

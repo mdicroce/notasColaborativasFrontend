@@ -24,7 +24,7 @@ export const ShowForm = (props) => {
     }
     return (
         <>
-            <Button startIcon={startIcon}  onClick={onClick} fullWidth color={'primary'} variant="contained"/>
+            <Button startIcon={startIcon}  onClick={onClick} fullWidth color={'primary'} variant="contained" children={props.text}/>
                 <Collapse in={show}>
                     {props.children}
                 </Collapse>
