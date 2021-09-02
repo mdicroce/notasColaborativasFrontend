@@ -14,14 +14,20 @@ export const FocusRoomView = ({id, owner}) => {
     const { user } = React.useContext(DataContext)
     const { setView } = React.useContext(DataContext)
     const [ seeForm, setSeeForm ] = React.useState(false)
+    const [ roomUsers, setRoomUsers ] = React.useState([])
     React.useEffect(()=>{
         getRoom(id)
+        .then(response => {
+            setRoomUsers(response[0].users)
+        })
         setSeeForm(owner === user.username)
     },[getRoom, id, setSeeForm, owner, user])
+    
     return(
         <Container>
             <Button onClick={((e)=>{e.preventDefault();setView(<NotesPage/>);})}>fafa</Button>
             {seeForm ? <AddNewUserToRoom room={room} /> : ""}
+            {seeForm ? <ShowUsers users={ roomUsers } /> : ""}
         </Container>
     )
 }
@@ -54,12 +60,12 @@ const AddNewUserToRoom = ({room}) => {
             {
                 newOptions = [...newOptions, ...results.map(actualResult => actualResult.username)]
             }
-            console.log(newOptions)
+            
             setOptions(newOptions)
         })
 
     }, [searchForm, inputValue, getUser])
-    console.log(room)
+    
         return (
             <div>
                 <Container maxWidth="sm">
@@ -106,7 +112,9 @@ const AddNewUserToRoom = ({room}) => {
 
 const ShowUsers = ({users}) => {
     const [usersToShow, setUsersToShow] = React.useState([])
+    
     React.useEffect(()=>{
+        
         setUsersToShow(users.map(
             (actualUser)=>{
                 return (<ShowOneUser key={actualUser.id} user={actualUser}/>)

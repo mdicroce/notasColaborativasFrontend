@@ -14,7 +14,7 @@ export const NotesTable = (props) => {
     const [notesToShow, setNotesToShow] = React.useState([])
     React.useEffect(()=> {
       getNotesFromRoom(user.personalRoom)
-      console.log("vamos")
+      
     },[])
     React.useEffect(()=> {
         setNotesToShow(notes.map(actualNote => {

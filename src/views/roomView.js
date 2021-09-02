@@ -29,7 +29,7 @@ const SeeRooms = ({rooms, getRoomsFromUser}) => {
     }, [])
     useEffect(()=>{
         setRoomRow(rooms.map((room)=>{
-            console.log(room)
+            
             return ( <RoomList key={room._id} id={room._id} roomName={room.roomName} owner={room.owner.username} cuantityOfUsers={room.users.length} cuantityOfNotes={room.notes.length}/> )
         }))
     },[rooms])
