@@ -17,7 +17,7 @@ export const NewRoom = ({ postNewRoom }) =>
         password.resetValue()
     }
     return (
-        <Container style={{ margin: "1rem auto",   textAlign:"center", backgroundColor: "red"}}>
+        <Container style={{ margin: "1rem auto",   textAlign:"center"}}>
                 <Paper style={{width: "85%", margin: "0 auto"}}>
             <ShowForm>
                     <form onSubmit={onSubmitRoom}>

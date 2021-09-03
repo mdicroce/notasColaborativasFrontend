@@ -34,7 +34,7 @@ const SeeRooms = ({rooms, getRoomsFromUser}) => {
         }))
     },[rooms])
     return (
-        <Container style={{backgroundColor:"blue"}}>
+        <Container >
             <TableContainer component={Paper} style={{width: "85%", margin: "0 auto"}}>
                 <Table>
                     <TableHead>
