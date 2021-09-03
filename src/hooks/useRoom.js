@@ -8,12 +8,14 @@ export function useRoom () {
 
     const postNewUserToRoom = useMemo(()=> async(id,newUser)=>{
         const response = await changeRoomService(id, {"username": newUser})
-        return response.data
-    },[changeRoomService])
+        return await setRooms({...rooms, users: response[0].users})
+        
+    },[changeRoomService, rooms])
 
     const postNewRoom = useMemo(() => async (newRoom) => {
         postRoomService(newRoom)
         setRooms([...rooms,newRoom])
+        
     },[postRoomService, rooms])
 
     const getRoomsFromUser = async() => {

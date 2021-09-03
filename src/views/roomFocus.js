@@ -11,7 +11,7 @@ import { useStyles } from '../components/frontpage'
 import { ShowForm } from '../components/newNote'
 
 export const FocusRoomView = ({id, owner}) => {
-    const { rooms, getRoom } = useRoom()
+    const { rooms, getRoom, postNewUserToRoom} = useRoom()
     const { user } = React.useContext(DataContext)
     const { setView } = React.useContext(DataContext)
     const [ seeForm, setSeeForm ] = React.useState(false)
@@ -23,19 +23,24 @@ export const FocusRoomView = ({id, owner}) => {
         })
         setSeeForm(owner === user.username)
     },[getRoom, id, setSeeForm, owner, user])
-    
+    React.useEffect(()=>{
+        if(rooms.users)
+        {
+            setRoomUsers(rooms.users)
+            console.log(rooms)
+        }
+    },[rooms.users])
     return(
         <Container>
-            {seeForm ? <AddNewUserToRoom room={rooms[0]} /> : ""}
+            {seeForm ? <AddNewUserToRoom room={rooms[0]} postNewUserToRoom={postNewUserToRoom} /> : ""}
             {seeForm ? <ShowUsers users={ roomUsers } /> : ""}
         </Container>
     )
 }
 
-const AddNewUserToRoom = ({room}) => {
+const AddNewUserToRoom = ({room, postNewUserToRoom}) => {
     
     const classes = useStyles()
-    const { postNewUserToRoom } = useRoom()
     const [searchForm, setSearchForm] = React.useState('')
     const [inputValue, setInputValue] = React.useState('')
     const [options, setOptions] = React.useState([])
