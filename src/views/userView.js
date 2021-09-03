@@ -14,8 +14,8 @@ import { Room } from './roomView'
 
 const LoggedFrontPage = () => {
 
-    const { view, setView } = React.useContext(DataContext)
-    useEffect(()=>{setView(<NotesPage/>)},[])
+    const { view, setView, user } = React.useContext(DataContext)
+    useEffect(()=>{setView(<NotesPage room={user.personalRoom}/>)},[])
 
     return (
         <div >
@@ -26,12 +26,11 @@ const LoggedFrontPage = () => {
 }
 
 export const NotesPage = (props) => {
-    
     return (
         <div>
             
             <MainPage>
-                <NotesTable />
+                <NotesTable room={props.room}/>
             </MainPage>
         </div>
     )
@@ -51,7 +50,7 @@ const MainPage = (props) =>
 
 const LoggedHeader = (props) => {
 
-    const { setUser, setView, setToken } = React.useContext(DataContext)
+    const { setUser, setView, setToken, user } = React.useContext(DataContext)
     const loggout = (e) => {
         e.preventDefault()
         window.localStorage.removeItem('loggedUser')
@@ -61,7 +60,7 @@ const LoggedHeader = (props) => {
     }
     const showNotes = (e) => {
         e.preventDefault()
-        setView(<NotesPage/>)
+        setView(<NotesPage room={user.personalRoom}/>)
     }
     const showRooms = (e) => {
         e.preventDefault()

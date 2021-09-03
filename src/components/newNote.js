@@ -49,7 +49,7 @@ export const NewNote = ({postNewNote}) => {
     
 
     return (
-        <ShowForm >
+        <ShowForm text="Add new note">
             <Paper>
 
                 <form className={classes.newNoteForm} onSubmit={onSub} noValidate>

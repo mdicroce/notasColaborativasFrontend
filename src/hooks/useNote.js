@@ -11,8 +11,8 @@ export function useNote () {
         noteService.postNote(newNote)
         setNotes([...notes,newNote])
     }
-    const getNotesFromRoom = async() => {
-        const response = await noteService.getAllFromRoom(user.personalRoom)
+    const getNotesFromRoom = async(room) => {
+        const response = await noteService.getAllFromRoom(room)
         setNotes(response)
     }
     const getNotesFromUser = async () => {

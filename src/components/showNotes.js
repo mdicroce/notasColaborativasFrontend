@@ -8,13 +8,11 @@ import { useStyles } from './frontpage'
 import { NewNote } from './newNote'
 
 export const NotesTable = (props) => {
-    
+    console.log(props.room)
     const {notes, getNotesFromRoom, postNewNote} = useNote()
-    const { user } = React.useContext(DataContext)
     const [notesToShow, setNotesToShow] = React.useState([])
     React.useEffect(()=> {
-      getNotesFromRoom(user.personalRoom)
-      
+      getNotesFromRoom(props.room)
     },[])
     React.useEffect(()=> {
         setNotesToShow(notes.map(actualNote => {
